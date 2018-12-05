@@ -30,4 +30,10 @@
         android:layout_height="wrap_content"
         android:text="TextView" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="231dp"
+        app:srcCompat="@android:drawable/alert_light_frame" />
+
 </LinearLayout>

@@ -9,6 +9,8 @@ import org.json.*;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.android.volley.Request;
@@ -84,11 +86,11 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(final JSONObject response) {
                             try {
-                                //Log.d(TAG, response.toString(2));
+                                Log.d(TAG, response.toString(2));
                                 apiCallDone(response);
                             } catch (Exception e) {
                                 Log.e(TAG, "don't indent, apiCallDone not executed");
-                                //Log.d(TAG, response.toString());
+                                Log.d(TAG, response.toString());
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     void apiCallDone(final JSONObject response) {
         try {
             final TextView jsonResult = findViewById(R.id.jsonResult);
-            jsonResult.setText(response.toString());
+            jsonResult.setText(getCalories(parseIt(response)));
         } catch (Exception e) {
             Log.e(TAG, "apiCallDone error");
             e.printStackTrace();
@@ -133,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
      */
     JSONArray parseIt(JSONObject response) {
         try {
-            //Log.e(TAG, response.getJSONArray("foods").toString());
             return response.getJSONArray("foods");
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,8 +148,7 @@ public class MainActivity extends AppCompatActivity {
      */
     String getCalories(final JSONArray array) {
         try {
-            int calorie = array.getJSONObject(0).getInt("nf_calories");
-            return Integer.toString(calorie);
+            return array.getJSONObject(0).getString("nf_calories");
         } catch (Exception e) {
             e.printStackTrace();
             return null;
