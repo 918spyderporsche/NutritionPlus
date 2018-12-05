@@ -15,20 +15,20 @@
             android:id="@+id/searchBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:hint="Enter food item" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/startAPICall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="search" />
 
     <TextView
         android:id="@+id/jsonResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="Cholesterol Count" />
 
     <ImageView
         android:id="@+id/imageView"

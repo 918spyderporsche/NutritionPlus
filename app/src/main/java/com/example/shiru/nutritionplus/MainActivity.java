@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import org.json.*;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             final TextView jsonResult = findViewById(R.id.jsonResult);
             jsonResult.setText(getCalories(parseIt(response)));
+            showImage(parseIt(response));
         } catch (Exception e) {
             Log.e(TAG, "apiCallDone error");
             e.printStackTrace();
@@ -152,6 +154,16 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    void showImage(JSONArray array) {
+        try {
+            String url = array.getJSONObject(0).getJSONObject("photo").getString("thumb");
+            final ImageView imageView = findViewById(R.id.imageView);
+            Glide.with(this).load(url).into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
