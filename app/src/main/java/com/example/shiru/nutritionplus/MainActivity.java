@@ -1,4 +1,5 @@
 package com.example.shiru.nutritionplus;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -44,9 +45,14 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param savedInstanceState state that was saved by the activity last time it was paused
      */
+
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
 
         // Set up a queue for our Volley requests
         requestQueue = Volley.newRequestQueue(this);
@@ -70,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         //ProgressBar progressBar = findViewById(R.id.progressBar);
         //progressBar.setVisibility(View.INVISIBLE);
     }
+
 
     /**
      * Make an API call to search up the food.
