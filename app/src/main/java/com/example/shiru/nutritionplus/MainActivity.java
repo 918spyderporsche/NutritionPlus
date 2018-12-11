@@ -48,10 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private static List<Double> COLLECTION_OF_FOOD = new LinkedList<>();
     private static double TEMP_CALORIES = 0.0;
 
-    private static String TOTAL_FAT;
-    private static String CHOLESTEROL;
-    private static String CARBOHYDRATE;
-
     private static String[] nutrients = {
             "nf_calories",
             "nf_total_fat",
@@ -66,20 +62,6 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private static Map<String, String> nutritionDict = new HashMap<>();
-    /*
-    private static String[] nutrients = {
-            "nf_calories": 94.64,
-            "nf_total_fat": 0.31,
-            "nf_saturated_fat": 0.05,
-            "nf_cholesterol": 0,
-            "nf_sodium": 1.82,
-            "nf_total_carbohydrate": 25.13,
-            "nf_dietary_fiber": 4.37,
-            "nf_sugars": 18.91,
-            "nf_protein": 0.47,
-            "nf_potassium": 194.74,
-    };
-    */
     /**
      * Run when our activity comes into view.
      *
@@ -110,8 +92,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(final View v) {
                 Log.d(TAG, "Start API button clicked");
                 final String foodItem = searchBox.getText().toString();
-                startAPICall(foodItem);
-                waitingBar.setVisibility(View.VISIBLE);
+                if (foodItem.length() != 0) {
+                    startAPICall(foodItem);
+                    waitingBar.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -355,5 +339,10 @@ public class MainActivity extends AppCompatActivity {
     public static String getTotalFat() { return TOTAL_FAT; }
     public static String getCholesterol() { return CHOLESTEROL; }
     public static String getCarbohydrate() { return CARBOHYDRATE; }
+
+
+    private static String TOTAL_FAT;
+    private static String CHOLESTEROL;
+    private static String CARBOHYDRATE;
     */
 }
