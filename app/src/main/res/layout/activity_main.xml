@@ -36,6 +36,13 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textSize="18sp" />
 
+    <ProgressBar
+        android:id="@+id/waiting"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
@@ -59,7 +66,8 @@
         android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:accessibilityHeading="false" />
 
     <LinearLayout
         android:layout_width="match_parent"

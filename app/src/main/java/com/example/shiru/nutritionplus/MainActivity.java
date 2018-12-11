@@ -64,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
         // Load the main layout for our activity
         setContentView(R.layout.activity_main);
 
+
+        // Make sure that our progress bar isn't spinning and style it a bit
+        final ProgressBar waitingBar = findViewById(R.id.waiting);
+        waitingBar.setVisibility(View.INVISIBLE);
+
         // handler for search button
         final Button startAPICall = findViewById(R.id.startAPICall);
         final TextInputEditText searchBox = findViewById(R.id.searchBox);
@@ -73,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Start API button clicked");
                 final String foodItem = searchBox.getText().toString();
                 startAPICall(foodItem);
+                waitingBar.setVisibility(View.VISIBLE);
             }
         });
 
@@ -110,10 +116,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // Make sure that our progress bar isn't spinning and style it a bit
-        //ProgressBar progressBar = findViewById(R.id.progressBar);
-        //progressBar.setVisibility(View.INVISIBLE);
     }
 
 
@@ -173,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
             setPerFoodProgress(calories);
             showImage(parseIt(response));
             TEMP_CALORIES = Double.parseDouble(calories);
+            final ProgressBar waitingBar = findViewById(R.id.waiting);
+            waitingBar.setVisibility(View.INVISIBLE);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
             e.getMessage();
