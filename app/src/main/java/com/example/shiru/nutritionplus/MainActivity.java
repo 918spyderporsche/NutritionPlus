@@ -218,9 +218,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             JSONObject parsed = parseIt(response);
             nutritionDict = generateNutritionDict(parsed);
-            setTotalFat(parsed);
-            setCholesterol(parsed);
-            setCarbohydrate(parsed);
+            //setTotalFat(parsed);
+            //setCholesterol(parsed);
+            //setCarbohydrate(parsed);
             String calories = getCalories(parsed);
             showCalories(calories);
             setPerFoodProgress(calories);
@@ -311,6 +311,23 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public Map<String, String> generateNutritionDict(JSONObject jsonObject) {
+        Map<String, String> nutritionDict = new HashMap<>();
+        String value;
+        for (String nutrient : nutrients) {
+            try {
+                value = jsonObject.getString(nutrient);
+            } catch (Exception e) {
+                value = "no info available";
+            }
+            nutritionDict.put(nutrient, value);
+        }
+        return nutritionDict;
+    }
+    public static String[] getNutrients() { return nutrients; }
+    public static Map<String, String> getNutritionDict() { return nutritionDict; }
+
+    /*
     void setTotalFat(final JSONObject jsonObject) {
         try {
             TOTAL_FAT = jsonObject.getString("nf_total_fat");
@@ -335,22 +352,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public Map<String, String> generateNutritionDict(JSONObject jsonObject) {
-        Map<String, String> nutritionDict = new HashMap<>();
-        String value;
-        for (String nutrient : nutrients) {
-            try {
-                value = jsonObject.getString(nutrient);
-            } catch (Exception e) {
-                value = "no info available";
-            }
-            nutritionDict.put(nutrient, value);
-        }
-        return nutritionDict;
-    }
     public static String getTotalFat() { return TOTAL_FAT; }
     public static String getCholesterol() { return CHOLESTEROL; }
     public static String getCarbohydrate() { return CARBOHYDRATE; }
-    public static String[] getNutrients() { return nutrients; }
-    public static Map<String, String> getNutritionDict() { return nutritionDict; }
+    */
 }

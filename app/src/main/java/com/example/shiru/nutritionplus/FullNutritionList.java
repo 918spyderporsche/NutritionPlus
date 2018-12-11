@@ -16,29 +16,13 @@ public class FullNutritionList extends AppCompatActivity {
         setContentView(R.layout.activity_full_nutrition_list);
         try {
             showNutritionInfo();
-            showTotalFat();
-            showCholesterol();
-            showCarbohydrate();
+            //showTotalFat();
+            //showCholesterol();
+            //showCarbohydrate();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-    }
-
-    void showTotalFat() {
-        final TextView totalFat = findViewById(R.id.totalFat);
-        String message = "total fat: " + MainActivity.getTotalFat();
-        totalFat.setText(message);
-    }
-    void showCholesterol() {
-        final TextView cholesterol = findViewById(R.id.cholesterol);
-        String message = "cholesterol: " + MainActivity.getCholesterol();
-        cholesterol.setText(message);
-    }
-    void showCarbohydrate() {
-        final TextView carbohydrate = findViewById(R.id.carbohydrate);
-        String message = "carbohydrate: " + MainActivity.getCarbohydrate();
-        carbohydrate.setText(message);
     }
 
     void showNutritionInfo() {
@@ -60,4 +44,22 @@ public class FullNutritionList extends AppCompatActivity {
         nutritionInfo.setSingleLine(false);
         nutritionInfo.setText(message);
     }
+
+    /*
+    void showTotalFat() {
+        final TextView totalFat = findViewById(R.id.totalFat);
+        String message = "total fat: " + MainActivity.getTotalFat();
+        totalFat.setText(message);
+    }
+    void showCholesterol() {
+        final TextView cholesterol = findViewById(R.id.cholesterol);
+        String message = "cholesterol: " + MainActivity.getCholesterol();
+        cholesterol.setText(message);
+    }
+    void showCarbohydrate() {
+        final TextView carbohydrate = findViewById(R.id.carbohydrate);
+        String message = "carbohydrate: " + MainActivity.getCarbohydrate();
+        carbohydrate.setText(message);
+    }
+    */
 }
