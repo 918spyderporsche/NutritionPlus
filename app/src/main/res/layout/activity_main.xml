@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_vertical"
     android:orientation="vertical"
+    android:theme="@style/Theme.AppCompat.NoActionBar"
     tools:context=".MainActivity">
 
     <android.support.design.widget.TextInputLayout
@@ -15,12 +17,13 @@
             android:id="@+id/searchBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter food item" />
+            android:hint="Enter food item"
+            android:textSize="18sp" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/startAPICall"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="search" />
 
@@ -28,12 +31,73 @@
         android:id="@+id/jsonResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Calorie Count" />
+        android:layout_gravity="center_horizontal"
+        android:text="Calorie Count Per Serving"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="231dp"
-        app:srcCompat="@android:drawable/alert_light_frame" />
+        android:background="@drawable/ic_launcher_foreground"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ratio of calories to recommended calories per meal" />
+
+    <TextView
+        android:id="@+id/percentageDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Percentage" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ADD" />
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="DELETE" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ratio of total calories to recommended calories per meal" />
+
+    <TextView
+        android:id="@+id/percentageTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Percentage" />
+
+    <ProgressBar
+        android:id="@+id/percentPerMeal"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false" />
 
 </LinearLayout>

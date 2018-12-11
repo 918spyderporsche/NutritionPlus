@@ -1,4 +1,5 @@
 package com.example.shiru.nutritionplus;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -30,9 +31,12 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-
+@TargetApi(24)
 public class MainActivity extends AppCompatActivity {
     /** Default logging tag for messages from the main activity. */
     private static final String TAG = "Lab12:Main";
@@ -40,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     /** Request queue for our network requests. */
     private static RequestQueue requestQueue;
 
+    private static final int DAILY_CALORIES = 2800;
+    private static List<Double> COLLECTION_OF_FOOD = new LinkedList<>();
+    private static double TEMP_CALORIES = 0.0;
     /**
      * Run when our activity comes into view.
      *
@@ -51,16 +58,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
         // Set up a queue for our Volley requests
         requestQueue = Volley.newRequestQueue(this);
 
         // Load the main layout for our activity
         setContentView(R.layout.activity_main);
 
-        // Attach the handler to our UI button
+        // handler for search button
         final Button startAPICall = findViewById(R.id.startAPICall);
         final TextInputEditText searchBox = findViewById(R.id.searchBox);
         startAPICall.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +73,41 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Start API button clicked");
                 final String foodItem = searchBox.getText().toString();
                 startAPICall(foodItem);
+            }
+        });
+
+        //handler for add button
+        final Button add = findViewById(R.id.addButton);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Log.d(TAG, "Add button clicked");
+                    //CALORIES_PER_MEAL += TEMP_CALORIES;
+                    COLLECTION_OF_FOOD.add(TEMP_CALORIES);
+                    setMealProgress();
+                } catch (Exception e) {
+                    Log.e(TAG, "Add button error");
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        //handler for delete button
+        final Button delete = findViewById(R.id.deleteButton);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Log.d(TAG, "Delete button clicked");
+                    if (COLLECTION_OF_FOOD.size() > 0) {
+                        COLLECTION_OF_FOOD.remove(COLLECTION_OF_FOOD.size() - 1);
+                        setMealProgress();
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Delete button error");
+                }
             }
         });
 
@@ -129,12 +168,14 @@ public class MainActivity extends AppCompatActivity {
      */
     void apiCallDone(final JSONObject response) {
         try {
-            final TextView jsonResult = findViewById(R.id.jsonResult);
-            jsonResult.setText(getCalories(parseIt(response)));
+            String calories = getCalories(parseIt(response));
+            showCalories(calories);
+            setPerFoodProgress(calories);
             showImage(parseIt(response));
+            TEMP_CALORIES = Double.parseDouble(calories);
         } catch (Exception e) {
-            Log.e(TAG, "apiCallDone error");
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+            e.getMessage();
         }
     }
     /**
@@ -172,5 +213,41 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    void setPerFoodProgress(String calories) {
+        final ProgressBar progressBar = findViewById(R.id.progressBar);
+        int percentage = (int) Double.parseDouble(calories) * 100 / (DAILY_CALORIES / 3);
+        if (percentage > 100) {
+            percentage = 100;
+        }
+        progressBar.setProgress(percentage, true);
+
+        final TextView percentageDisplay = findViewById(R.id.percentageDisplay);
+        String percent = Integer.toString(percentage) + "%";
+        percentageDisplay.setText(percent);
+    }
+
+    void showCalories(String calories) {
+        final TextView jsonResult = findViewById(R.id.jsonResult);
+        String message = "calorie count: " + calories;
+        jsonResult.setText(message);
+    }
+
+    void setMealProgress() {
+        final ProgressBar percentPerMeal = findViewById(R.id.percentPerMeal);
+        double calorieTotal = 0.0;
+        for (int i = 0; i < COLLECTION_OF_FOOD.size(); i++) {
+            calorieTotal += COLLECTION_OF_FOOD.get(i);
+        }
+        int percentageInt = (int) calorieTotal * 100 / (DAILY_CALORIES / 3);
+        if (percentageInt > 100) {
+            percentageInt = 100;
+        }
+        percentPerMeal.setProgress(percentageInt, true);
+
+        final TextView percentageTotal = findViewById(R.id.percentageTotal);
+        String percent = Integer.toString(percentageInt) + "%";
+        percentageTotal.setText(percent);
     }
 }
