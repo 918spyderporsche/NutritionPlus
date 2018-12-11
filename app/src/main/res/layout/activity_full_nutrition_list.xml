@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".FullNutritionList">
+
+    <TextView
+        android:id="@+id/nutritionInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nutrition Info"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:id="@+id/carbohydrate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Carbohydrate: "
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/nutritionInfo1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="NutritionInfo"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/totalFat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="total fat: "
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/cholesterol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cholesterol: "
+            android:textSize="24sp" />
+    </LinearLayout>
+
+</LinearLayout>

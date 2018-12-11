@@ -47,6 +47,39 @@ public class MainActivity extends AppCompatActivity {
     private static final int DAILY_CALORIES = 2800;
     private static List<Double> COLLECTION_OF_FOOD = new LinkedList<>();
     private static double TEMP_CALORIES = 0.0;
+
+    private static String TOTAL_FAT;
+    private static String CHOLESTEROL;
+    private static String CARBOHYDRATE;
+
+    private static String[] nutrients = {
+            "nf_calories",
+            "nf_total_fat",
+            "nf_saturated_fat",
+            "nf_cholesterol",
+            "nf_sodium",
+            "nf_total_carbohydrate",
+            "nf_dietary_fiber",
+            "nf_sugars",
+            "nf_protein",
+            "nf_potassium"
+    };
+
+    private static Map<String, String> nutritionDict = new HashMap<>();
+    /*
+    private static String[] nutrients = {
+            "nf_calories": 94.64,
+            "nf_total_fat": 0.31,
+            "nf_saturated_fat": 0.05,
+            "nf_cholesterol": 0,
+            "nf_sodium": 1.82,
+            "nf_total_carbohydrate": 25.13,
+            "nf_dietary_fiber": 4.37,
+            "nf_sugars": 18.91,
+            "nf_protein": 0.47,
+            "nf_potassium": 194.74,
+    };
+    */
     /**
      * Run when our activity comes into view.
      *
@@ -116,6 +149,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //handler for nutrition button
+        final Button fullNutritionButton = findViewById(R.id.fullNutritionButton);
+        fullNutritionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    openFullNutritionList();
+                } catch (Exception e) {
+                    Log.e(TAG, "nutrition button error: " + e.getMessage());
+                }
+            }
+        });
     }
 
 
@@ -170,7 +216,12 @@ public class MainActivity extends AppCompatActivity {
      */
     void apiCallDone(final JSONObject response) {
         try {
-            String calories = getCalories(parseIt(response));
+            JSONObject parsed = parseIt(response);
+            nutritionDict = generateNutritionDict(parsed);
+            setTotalFat(parsed);
+            setCholesterol(parsed);
+            setCarbohydrate(parsed);
+            String calories = getCalories(parsed);
             showCalories(calories);
             setPerFoodProgress(calories);
             showImage(parseIt(response));
@@ -187,9 +238,9 @@ public class MainActivity extends AppCompatActivity {
      * @param response the Json string.
      * @return the IP address parsed into a string
      */
-    JSONArray parseIt(JSONObject response) {
+    JSONObject parseIt(JSONObject response) {
         try {
-            return response.getJSONArray("foods");
+            return response.getJSONArray("foods").getJSONObject(0);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -197,21 +248,21 @@ public class MainActivity extends AppCompatActivity {
     }
     /**
      * returns the calorie count.
-     * @param array the parsed jsonObject
+     * @param jsonObject the parsed jsonObject
      * @return the IP address as a string
      */
-    String getCalories(final JSONArray array) {
+    String getCalories(final JSONObject jsonObject) {
         try {
-            return array.getJSONObject(0).getString("nf_calories");
+            return jsonObject.getString("nf_calories");
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    void showImage(JSONArray array) {
+    void showImage(JSONObject jsonObject) {
         try {
-            String url = array.getJSONObject(0).getJSONObject("photo").getString("thumb");
+            String url = jsonObject.getJSONObject("photo").getString("thumb");
             final ImageView imageView = findViewById(R.id.imageView);
             Glide.with(this).load(url).into(imageView);
         } catch (Exception e) {
@@ -254,4 +305,52 @@ public class MainActivity extends AppCompatActivity {
         String percent = Integer.toString(percentageInt) + "%";
         percentageTotal.setText(percent);
     }
+
+    void openFullNutritionList() {
+        Intent intent = new Intent(this, FullNutritionList.class);
+        startActivity(intent);
+    }
+
+    void setTotalFat(final JSONObject jsonObject) {
+        try {
+            TOTAL_FAT = jsonObject.getString("nf_total_fat");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void setCholesterol(final JSONObject jsonObject) {
+        try {
+            CHOLESTEROL = jsonObject.getString("nf_cholesterol");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void setCarbohydrate(final JSONObject jsonObject) {
+        try {
+            CARBOHYDRATE = jsonObject.getString("nf_total_carbohydrate");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Map<String, String> generateNutritionDict(JSONObject jsonObject) {
+        Map<String, String> nutritionDict = new HashMap<>();
+        String value;
+        for (String nutrient : nutrients) {
+            try {
+                value = jsonObject.getString(nutrient);
+            } catch (Exception e) {
+                value = "no info available";
+            }
+            nutritionDict.put(nutrient, value);
+        }
+        return nutritionDict;
+    }
+    public static String getTotalFat() { return TOTAL_FAT; }
+    public static String getCholesterol() { return CHOLESTEROL; }
+    public static String getCarbohydrate() { return CARBOHYDRATE; }
+    public static String[] getNutrients() { return nutrients; }
+    public static Map<String, String> getNutritionDict() { return nutritionDict; }
 }

@@ -87,6 +87,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="DELETE" />
+
+        <Button
+            android:id="@+id/fullNutritionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Full Nutrition Info" />
     </LinearLayout>
 
     <TextView
