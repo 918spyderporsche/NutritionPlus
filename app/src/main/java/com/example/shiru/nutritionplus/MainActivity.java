@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
      * @param savedInstanceState state that was saved by the activity last time it was paused
      */
 
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +91,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(final View v) {
                 Log.d(TAG, "Start API button clicked");
                 final String foodItem = searchBox.getText().toString();
-                if (foodItem.length() != 0) {
+                if (foodItem.length() == 0) {
+                    Context context = getApplicationContext();
+                    CharSequence warning = "Please enter a food item";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, warning, duration);
+                    toast.show();
+                } else {
                     startAPICall(foodItem);
                     waitingBar.setVisibility(View.VISIBLE);
                 }
@@ -139,7 +144,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    openFullNutritionList();
+                    final TextInputEditText searchBox = findViewById(R.id.searchBox);
+                    String foodItem = searchBox.getText().toString();
+                    if (foodItem.length() == 0) {
+                        Context context = getApplicationContext();
+                        CharSequence warning = "Please enter a food item";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(context, warning, duration);
+                        toast.show();
+                    } else {
+                        openFullNutritionList();
+                    }
                 } catch (Exception e) {
                     Log.e(TAG, "nutrition button error: " + e.getMessage());
                 }
