@@ -1,5 +1,6 @@
 package com.example.shiru.nutritionplus;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -27,6 +28,7 @@ import com.google.gson.JsonParser;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -47,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int DAILY_CALORIES = 2800;
     private static List<Double> COLLECTION_OF_FOOD = new LinkedList<>();
     private static double TEMP_CALORIES = 0.0;
-
     private static String[] nutrients = {
             "nf_calories",
             "nf_total_fat",
@@ -78,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Load the main layout for our activity
         setContentView(R.layout.activity_main);
-
 
         // Make sure that our progress bar isn't spinning and style it a bit
         final ProgressBar waitingBar = findViewById(R.id.waiting);
@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "Add button error");
                     e.printStackTrace();
                 }
-
             }
         });
 
@@ -175,7 +174,15 @@ public class MainActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(final VolleyError error) {
+                    Log.e(TAG, "API call failed");
                     Log.w(TAG, error.toString());
+                    final ProgressBar waitingBar = findViewById(R.id.waiting);
+                    waitingBar.setVisibility(View.INVISIBLE);
+                    Context context = getApplicationContext();
+                    CharSequence warning = "No info is available for this food item";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, warning, duration);
+                    toast.show();
                 }
             }) {
                 @Override
